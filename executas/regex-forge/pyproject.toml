@@ -1,0 +1,29 @@
+# NOTE: `name` and the `[project.scripts]` key MUST equal the executa's id
+# (the `anna-app dev` python launcher runs `uv run --project <dir> <id>`, so
+# the id has to be a script key). At publish time `anna-app apps publish` mints
+# the real id, rewrites every bundled:<handle> reference, and writes
+# bundle/anna-tool-ids.js for the UI bundle.
+[project]
+name = "tool-test-regex-forge-12345678"
+version = "1.0.0"
+description = "Regex Forge — deterministic stdio Executa engine for the RegexForge Anna App"
+requires-python = ">=3.10"
+authors = [{ name = "RegexForge" }]
+license = { text = "MIT" }
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "anna-executa-test>=0.1.0",
+]
+
+[project.scripts]
+"tool-test-regex-forge-12345678" = "regex_forge_plugin:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["regex_forge_plugin"]

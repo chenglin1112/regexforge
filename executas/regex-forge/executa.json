@@ -1,0 +1,21 @@
+{
+  "slug": "regex-forge",
+  "name": "Regex Forge",
+  "version": "1.0.0",
+  "executa_type": "tool",
+  "description": "Compiles and runs a regular expression against real sample lines with Python's standard-library `re` engine, returning exact per-line match offsets, named-group spans, compile errors, and ready-to-paste snippets. The deterministic source of truth for the RegexForge Anna App.",
+
+  "tool_id": "tool-test-regex-forge-12345678",
+  "type": "python",
+  "enabled": true,
+  "command": ["uv", "run", "--no-project", "python", "regex_forge_plugin.py"],
+
+  "distribution": {
+    "active": "local",
+    "profiles": {
+      "local": { "type": "local", "supports_protocol": true }
+    }
+  },
+
+  "_comment": "Dev fields (tool_id/type/enabled) are read by `anna-app dev`; publish metadata (slug/name/version/executa_type/description) by `anna-app (apps|executa) publish`. The tool_id here is a synthetic dev id and is mirrored in pyproject.toml (name + [project.scripts] key), bundle/app.js (DEV_FALLBACK_TOOL_ID), and executas/regex-coach/SKILL.md (requires.tools). At publish time `anna-app apps publish` mints a real id and writes bundle/anna-tool-ids.js. Stdlib-only Python -> instant `uv run` cold start, no dependencies. This dir is the `regex-forge` handle referenced by app.json#bundled_executas."
+}
