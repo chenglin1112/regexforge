@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>RegexForge</title>
+    <link rel="icon" type="image/svg+xml" href="icon.svg" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-state="empty" data-ai="manual">
+    <div class="glow" aria-hidden="true"></div>
+
+    <main class="app">
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="brand">
+          <img class="brand__mark" src="icon.svg" alt="" width="30" height="30" />
+          <span class="brand__name">RegexForge</span>
+          <span class="badge" id="ai-mode" title="AI mode">manual</span>
+        </div>
+        <div class="topbar__right">
+          <span class="conn" id="conn-status" title="Disconnected"><span class="conn__dot"></span><span class="conn__label">offline</span></span>
+          <button class="iconbtn" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Compose: describe → forge, and the resolved pattern -->
+      <section class="compose">
+        <div class="field">
+          <input id="intent-input" type="text" maxlength="240" placeholder="Describe the pattern in plain English…" autocomplete="off" spellcheck="false" />
+          <button class="btn btn--primary" id="forge-btn" type="button">Forge</button>
+        </div>
+        <div class="patternbar">
+          <span class="slash" aria-hidden="true">/</span>
+          <input id="pattern-input" class="pattern" type="text" placeholder="your regex appears here — or type one and press Enter" autocomplete="off" autocapitalize="off" spellcheck="false" />
+          <span class="slash" aria-hidden="true">/</span>
+          <input id="flags-input" class="flags" type="text" maxlength="6" placeholder="flags" title="i m s x a" autocomplete="off" spellcheck="false" />
+        </div>
+        <p class="hint" id="status-label">Pick a sample below, then describe what to capture.</p>
+        <p class="hint hint--explain" id="explain-line"></p>
+      </section>
+
+      <!-- Verdict: the match‑ratio ring + legend (the one saturated focal point) -->
+      <section class="verdict">
+        <div class="ring" role="img" aria-label="Match ratio">
+          <svg class="ring__svg" viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="var(--accent-1)" />
+                <stop offset="100%" stop-color="var(--accent-2)" />
+              </linearGradient>
+            </defs>
+            <circle class="ring__track" cx="60" cy="60" r="52" />
+            <circle class="ring__progress" cx="60" cy="60" r="52" />
+          </svg>
+          <div class="ring__center">
+            <div class="ring__count" id="ring-count">0<span class="ring__total" id="ring-total">/0</span></div>
+            <div class="ring__label" id="ring-label">no pattern</div>
+          </div>
+        </div>
+        <div class="verdict__body">
+          <div class="legend" id="legend" aria-live="polite"></div>
+          <p class="verified" id="verified-note"></p>
+        </div>
+      </section>
+
+      <div class="refine" id="refine-row" hidden>
+        <input id="refine-input" type="text" maxlength="200" placeholder="Refine in words — e.g. “some use a comma before the millis”" autocomplete="off" spellcheck="false" />
+        <button class="btn btn--ghost" id="refine-btn" type="button">Refine</button>
+      </div>
+
+      <!-- Canvas: your real lines, with engine‑verified overlays (the hero) -->
+      <section class="canvas">
+        <div class="canvas__bar">
+          <div class="chips" id="sample-chips" role="group" aria-label="Sample corpora"></div>
+          <button class="link" id="paste-toggle" type="button">Paste your own</button>
+        </div>
+        <div class="paste" id="paste-panel" hidden>
+          <textarea id="paste-area" rows="4" placeholder="Paste raw lines here (one record per line)…" spellcheck="false"></textarea>
+          <button class="btn btn--ghost" id="load-btn" type="button">Load lines</button>
+        </div>
+        <ol class="lines" id="lines" aria-live="polite"></ol>
+      </section>
+
+      <!-- Footer: export -->
+      <footer class="footer">
+        <div class="export">
+          <label class="sr-only" for="export-target">Export target</label>
+          <select id="export-target" title="Snippet flavour">
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="ripgrep">ripgrep</option>
+            <option value="grep">grep</option>
+          </select>
+          <button class="btn btn--accent" id="copy-btn" type="button" disabled>Copy regex + snippet</button>
+        </div>
+        <span class="footer__note muted" title="Every highlight is computed by the engine, not the model">verified by the engine, not the model</span>
+      </footer>
+    </main>
+
+    <!-- Written by `anna-app apps publish` (handle → minted tool_id). Absent under
+         `anna-app dev` (app.js falls back to the dev id). Safe to 404 in preview. -->
+    <script src="anna-tool-ids.js" defer></script>
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
