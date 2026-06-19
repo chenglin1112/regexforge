@@ -14,7 +14,7 @@
 
 An [Anna](https://anna.partners) App built for the **Anna AI‑Native App Hackathon** ([DoraHacks #2204](https://dorahacks.io/hackathon/2204/detail)).
 
-📹 **Demo:** a ~1‑minute walkthrough is included as [`regexforge-demo.mov`](regexforge-demo.mov).
+📹 **Demo:** a ~1‑minute walkthrough — [`regexforge-demo.mov`](https://github.com/chenglin1112/regexforge/releases/download/v0.1.0/regexforge-demo.mov) (GitHub Release).
 
 > **The model proposes; the engine proves.**
 > Every highlight you see and every number in the match‑ratio ring is computed by Python's standard‑library `re` engine — **never by the model**. So a match is *real*, not hallucinated. That's the whole idea: a regex you can trust, because the engine verified it on *your* data.
@@ -137,6 +137,10 @@ cd bundle && python3 -m http.server 8000   # open http://localhost:8000
 - **Meaningful AI** — English→named‑group authoring + failure‑driven repair, with the engine as the guardrail against hallucinated matches.
 - **Fit with Anna** — chat authors, the assistant drives the window, the verified snippet lands back in the conversation.
 - **Creativity & execution** — *self‑proving regex*, a single saturated match‑ratio ring, polished + tested code.
+
+## Privacy
+
+RegexForge runs entirely inside Anna. Your sample lines are processed locally by the bundled `regex‑forge` Executa (Python `re`) and by Anna's host LLM (`anna.llm.complete`); the app declares **no external origins**, sends nothing to third‑party servers, and ships no analytics or tracking. Pattern state lives in per‑app Anna storage — remove the app from Anna to delete it.
 
 ## License
 

@@ -5,15 +5,12 @@
   "tagline": "Describe a regex in plain English — then trust it, because the engine proves every match.",
   "description": "RegexForge collapses the most-hated dev chore — hand-crafting and debugging a regex against messy real text — into one assistant-driven interaction inside Anna.\n\nPaste a handful of raw log or CSV lines, say what you want in plain English (\"pull the ISO timestamp, the level, and the UUID request id\"), and watch RegexForge author a regex and **run it against your actual lines**. The window paints colored capture-group overlays directly on the text and fills a big match-ratio ring. Refine by talking — \"some lines use a comma before the millis\" — and the lone red line snaps green. One click copies a commented, named-group pattern plus ready-to-paste ripgrep / Python / JavaScript / grep snippets.\n\n**The model proposes; the engine proves.** Every highlight and every number comes from a deterministic Python `re` engine — never the model — so a match is real, not hallucinated.\n\n**What's inside**\n\n- A premium, monospace \"forge\" window: live overlays, an animated match-ratio ring, and a per-group legend.\n- `regex-forge` — a stdlib-only Executa stdio tool that compiles and runs the pattern and reports exact per-line match offsets, named-group spans, and compile errors.\n- `regex-coach` — a SKILL.md that teaches Anna to author re-safe named-group patterns and to always verify before claiming a match.\n\n**How to use**\n\nMention RegexForge in any chat (`#regexforge`), paste your lines, and describe the pattern. RegexForge does the rest — and hands you a regex you can paste with confidence.",
   "category": "developer-tools",
-  "logo_url": "https://example.com/regexforge/logo.png",
-  "cover_url": "https://example.com/regexforge/cover.png",
-  "screenshots": [
-    "https://example.com/regexforge/shot-overlays.png",
-    "https://example.com/regexforge/shot-ring.png"
-  ],
-  "homepage_url": "https://github.com/regexforge/anna-app-regexforge",
-  "support_url": "https://github.com/regexforge/anna-app-regexforge/issues",
-  "privacy_url": "https://github.com/regexforge/anna-app-regexforge#privacy",
+  "logo_url": "https://raw.githubusercontent.com/chenglin1112/regexforge/main/regexforge-logo.png",
+  "cover_url": "https://raw.githubusercontent.com/chenglin1112/regexforge/main/regexforge-logo.png",
+  "screenshots": [],
+  "homepage_url": "https://github.com/chenglin1112/regexforge",
+  "support_url": "https://github.com/chenglin1112/regexforge/issues",
+  "privacy_url": "https://github.com/chenglin1112/regexforge#privacy",
   "pricing_model": "free",
 
   "_comment_bundled_executas": "Executas that ship inside this app. `anna-app apps publish` publishes each one first, then substitutes its server-minted tool_id into every `bundled:<handle>` reference in manifest.json (in memory) and writes bundle/anna-tool-ids.js so the UI bundle reads the same ids. During `anna-app dev` the synthetic dev tool_id from each executa.json is used (and bundle/app.js falls back to it). The regex-coach Skill (executas/regex-coach/SKILL.md) ships as a declarative skill — its behavioral contract is also mirrored in manifest.system_prompt_addendum so it is effective at runtime; publish it with `anna-app executa publish` and add its minted id to required_executas to bundle it on the store.",
