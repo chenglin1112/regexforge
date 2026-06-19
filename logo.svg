@@ -1,0 +1,20 @@
+<svg width="480" height="480" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="80" y1="60" x2="420" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5eead4"/>
+      <stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="480" rx="112" fill="#0b1120"/>
+  <rect x="2" y="2" width="476" height="476" rx="110" stroke="url(#g)" stroke-opacity="0.28" stroke-width="3"/>
+  <!-- capture-group parens -->
+  <path d="M186 118 C 116 168, 116 312, 186 362" stroke="url(#g)" stroke-width="26" stroke-linecap="round"/>
+  <path d="M294 118 C 364 168, 364 312, 294 362" stroke="url(#g)" stroke-width="26" stroke-linecap="round"/>
+  <!-- the spark / match -->
+  <circle cx="240" cy="240" r="33" fill="url(#g)"/>
+  <!-- rays -->
+  <g stroke="url(#g)" stroke-width="17" stroke-linecap="round" stroke-opacity="0.88">
+    <path d="M240 92 v42"/>
+    <path d="M240 388 v-42"/>
+  </g>
+</svg>
