@@ -209,22 +209,46 @@ async function pushSamples(lines) {
 // AI: author + repair (host LLM). Falls back to manual cleanly.
 // ---------------------------------------------------------------------------
 
-function llmText(reply) {
-  const r = reply?.result ?? reply;
-  const c = r?.content;
+function pickText(c) {
+  if (!c) return "";
   if (typeof c === "string") return c;
-  if (c && typeof c.text === "string") return c.text;
-  if (Array.isArray(c)) return c.map((x) => x?.text || "").join("");
-  return r?.text || "";
+  if (typeof c.text === "string") return c.text;
+  if (Array.isArray(c)) return c.map((x) => (typeof x === "string" ? x : (x && x.text) || "")).join("");
+  return "";
+}
+
+// Robust across the shapes a host LLM gateway may return (Anthropic-style
+// content arrays, OpenAI-style choices[].message.content, MCP sampling, plain
+// text). We only ever mocked this in dev, so cast a wide net on the real wire.
+function llmText(reply) {
+  if (!reply) return "";
+  if (typeof reply === "string") return reply;
+  const r = reply.result ?? reply;
+  const ch = r.choices && r.choices[0];
+  return (
+    pickText(r.content) ||
+    pickText(r.message && r.message.content) ||
+    pickText(ch && ch.message && ch.message.content) ||
+    pickText(ch && ch.delta && ch.delta.content) ||
+    pickText(ch && ch.text) ||
+    (typeof r.text === "string" ? r.text : "") ||
+    (typeof r.completion === "string" ? r.completion : "") ||
+    (typeof r.output_text === "string" ? r.output_text : "") ||
+    ""
+  );
 }
 
 function extractJson(text) {
   if (!text) return null;
-  try { return JSON.parse(text); } catch { /* try to carve it out */ }
-  const start = text.indexOf("{");
-  const end = text.lastIndexOf("}");
+  let t = String(text).trim();
+  // Models often wrap JSON in a ```json … ``` fence despite instructions.
+  const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fence) t = fence[1].trim();
+  try { return JSON.parse(t); } catch { /* try to carve it out */ }
+  const start = t.indexOf("{");
+  const end = t.lastIndexOf("}");
   if (start !== -1 && end > start) {
-    try { return JSON.parse(text.slice(start, end + 1)); } catch { return null; }
+    try { return JSON.parse(t.slice(start, end + 1)); } catch { return null; }
   }
   return null;
 }
@@ -246,7 +270,10 @@ async function llmComplete(userText) {
   }
   const reply = await anna.llm.complete({
     messages: [{ role: "user", content: { type: "text", text: userText } }],
-    maxTokens: 700,
+    // Generous budget: reasoning models (e.g. gpt-5-mini) spend most of their
+    // output tokens on hidden reasoning, so a small cap leaves no room for the
+    // actual JSON answer and content comes back empty. 4000 leaves headroom.
+    maxTokens: 4000,
     // Top-level `content` carries the real prompt PLUS a small [corpus:<id>]
     // tag. Real runtimes read `messages`; the offline --mock-llm matcher keys
     // off `content`, so this lets a fixture return the right pattern per sample
