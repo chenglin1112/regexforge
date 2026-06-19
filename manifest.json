@@ -1,0 +1,63 @@
+{
+  "schema": 2,
+  "permissions": [
+    "tools.invoke",
+    "llm.complete",
+    "chat.append_artifact",
+    "storage.read",
+    "storage.write",
+    "ui.svg"
+  ],
+  "required_executas": [
+    {
+      "tool_id": "bundled:regex-forge",
+      "min_version": "1.0.0",
+      "version": "latest"
+    }
+  ],
+  "optional_executas": [],
+  "system_prompt_addendum": "The user has RegexForge open. RegexForge turns a plain-English description of a pattern into a regular expression that is PROVEN against the user's own sample lines. The bundled regex-forge Executa (call it with method='forge') is the single source of truth for what actually matches — the model proposes a pattern, the engine verifies it. Rules: (1) When the user wants to extract fields from, or match, some text, summon the window with open_app_view('regexforge') if it is not already open. (2) NEVER claim that a regex matches (or how many lines it matches) without first calling the regex-forge tool with {action:'test_pattern', pattern, flags}; report the engine's match_count/total, never a guess. (3) Prefer Python `re`-compatible syntax with NAMED groups (?P<name>...). When the engine returns a compile error or misses lines, read its structured feedback and propose a corrected pattern, then re-test. (4) When the user accepts a pattern, use {action:'export', target} to produce a copyable snippet. Follow the Regex Coach skill for tone and the refine-on-miss protocol.",
+  "user_message_prefix_template": "[RegexForge] {user_message}",
+  "tags": ["developer-tools", "regex", "logs", "productivity", "anna-app"],
+  "ui": {
+    "bundle": {
+      "format": "static-spa",
+      "entry": "index.html",
+      "external_origins": []
+    },
+    "views": [
+      {
+        "name": "main",
+        "title": "RegexForge",
+        "default": true,
+        "entry": "index.html",
+        "min_size": { "w": 480, "h": 640 },
+        "default_size": { "w": 720, "h": 880 },
+        "max_size": { "w": 1100, "h": 1280 },
+        "resizable": true,
+        "movable": true,
+        "single_instance": true,
+        "icon": "icon.svg"
+      }
+    ],
+    "host_api": {
+      "tools": ["required:*"],
+      "llm": ["complete"],
+      "chat": ["append_artifact"],
+      "storage": ["get", "set"],
+      "window": ["set_title"]
+    },
+    "csp_overrides": {
+      "img-src": ["'self'", "data:", "blob:"],
+      "font-src": ["'self'", "data:"],
+      "style-src": ["'self'"],
+      "script-src": ["'self'"]
+    },
+    "state_merge": "last_writer_wins"
+  },
+  "dev": {
+    "fixtures": ["fixtures/*.jsonl"],
+    "seed_storage": {},
+    "user_id": 1
+  }
+}
