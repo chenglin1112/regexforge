@@ -1,0 +1,46 @@
+name: Build Executa Binary
+
+# Builds the regex-forge Executa as standalone --onefile binaries for every
+# target platform and attaches them to the v0.1.0 GitHub Release, so the Anna
+# App can use "Binary" distribution (no Python/uv needed on the user side).
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'executa-v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            platform: darwin-arm64
+          - os: macos-13
+            platform: darwin-x86_64
+          - os: ubuntu-latest
+            platform: linux-x86_64
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Build binary
+        working-directory: executas/regex-forge
+        run: bash package_binary.sh
+
+      - name: Upload binary to release v0.1.0
+        working-directory: executas/regex-forge
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload v0.1.0 dist/*.tar.gz --clobber

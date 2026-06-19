@@ -5,7 +5,7 @@
   "executa_type": "tool",
   "description": "Compiles and runs a regular expression against real sample lines with Python's standard-library `re` engine, returning exact per-line match offsets, named-group spans, compile errors, and ready-to-paste snippets. The deterministic source of truth for the RegexForge Anna App.",
 
-  "tool_id": "tool-test-regex-forge-12345678",
+  "tool_id": "tool-chrisyang-0316-regex-forge-6svs9vut",
   "type": "python",
   "enabled": true,
   "command": ["uv", "run", "--no-project", "python", "regex_forge_plugin.py"],

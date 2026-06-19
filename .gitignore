@@ -17,3 +17,8 @@ bundle/anna-tool-ids.js
 
 # Large demo media — host via GitHub Release / Git LFS, not in git history
 regexforge-demo.mov
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec

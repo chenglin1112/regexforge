@@ -4,7 +4,7 @@
 # the real id, rewrites every bundled:<handle> reference, and writes
 # bundle/anna-tool-ids.js for the UI bundle.
 [project]
-name = "tool-test-regex-forge-12345678"
+name = "tool-chrisyang-0316-regex-forge-6svs9vut"
 version = "1.0.0"
 description = "Regex Forge — deterministic stdio Executa engine for the RegexForge Anna App"
 requires-python = ">=3.10"
@@ -19,7 +19,7 @@ dev = [
 ]
 
 [project.scripts]
-"tool-test-regex-forge-12345678" = "regex_forge_plugin:main"
+"tool-chrisyang-0316-regex-forge-6svs9vut" = "regex_forge_plugin:main"
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]
